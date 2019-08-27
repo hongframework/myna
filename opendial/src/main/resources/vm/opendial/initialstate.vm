@@ -1,0 +1,14 @@
+    <initialstate>
+        <variable id="task_code">
+## Welcome to our Norwegian flight-booking system!
+            <value>${taskCode}</value>
+        </variable>
+        <variable id="u_m">
+## Welcome to our Norwegian flight-booking system!
+            <value>$!{welcomeUtterance}</value>
+        </variable>
+        <variable id="current_step">
+## Destination
+            <value>${initCurrentStep}</value>
+        </variable>
+    </initialstate>

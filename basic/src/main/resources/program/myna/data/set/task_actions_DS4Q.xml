@@ -1,0 +1,30 @@
+<dataset>
+  <module>config</module>
+  <code>task_actions_DS4Q</code>
+  <entity>task_actions</entity>
+  <name>任务行为【查询】</name>
+  <fields>
+    <field code="id" name="任务行为id" edit-type="hidden" is-key="true" not-null="true"/>
+    <field code="action_trigger_value_LKE" name="行为触发值" edit-type="input"/>
+    <field code="status" name="状态" edit-type="select">
+      <enum-class code="task_actions.status"/>
+    </field>
+    <field code="task_id" name="任务id" edit-type="hidden" not-null="true">
+      <rel entity-code="task/id/name"/>
+    </field>
+    <field code="creator_id" name="创建人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="action_id" name="行为id" edit-type="hidden" not-null="true">
+      <rel entity-code="action/id/name" rel-field="utterances"/>
+    </field>
+    <field code="create_time" name="创建时间" edit-type="hidden"/>
+    <field code="utterances" name="话术id" edit-type="hidden" not-null="true">
+      <rel entity-code="utterance/id/null" rel-field="task_id"/>
+    </field>
+    <field code="modifier_id" name="修改人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="modify_time" name="修改时间" edit-type="hidden"/>
+  </fields>
+</dataset>

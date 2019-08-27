@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hframework.myna.config.dao.ActionMapper" >
+  <resultMap id="BaseResultMap" type="com.hframework.myna.config.domain.model.Action" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TYPE" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="action_scope" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="trigger_result" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="default_utterance_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="status" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="creator_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="modifier_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="modify_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="trigger_case" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="trigger_default_value" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="trigger_value_type" jdbcType="TINYINT" javaType="java.lang.Byte" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, code, `name`, description, `TYPE`, action_scope, trigger_result, default_utterance_id, 
+    `status`, creator_id, create_time, modifier_id, modify_time, trigger_case, trigger_default_value, 
+    trigger_value_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hframework.myna.config.domain.model.Action_Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from `action`
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitEnd != null and limitEnd != 0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from `action`
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from `action`
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hframework.myna.config.domain.model.Action_Example" >
+    delete from `action`
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hframework.myna.config.domain.model.Action" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `action` (code, `name`, description, 
+      `TYPE`, action_scope, trigger_result, 
+      default_utterance_id, `status`, creator_id, 
+      create_time, modifier_id, modify_time, 
+      trigger_case, trigger_default_value, trigger_value_type
+      )
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT}, #{actionScope,jdbcType=TINYINT}, #{triggerResult,jdbcType=VARCHAR}, 
+      #{defaultUtteranceId,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{creatorId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{triggerCase,jdbcType=TINYINT}, #{triggerDefaultValue,jdbcType=VARCHAR}, #{triggerValueType,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hframework.myna.config.domain.model.Action" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `action`
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        `name`,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="type != null" >
+        `TYPE`,
+      </if>
+      <if test="actionScope != null" >
+        action_scope,
+      </if>
+      <if test="triggerResult != null" >
+        trigger_result,
+      </if>
+      <if test="defaultUtteranceId != null" >
+        default_utterance_id,
+      </if>
+      <if test="status != null" >
+        `status`,
+      </if>
+      <if test="creatorId != null" >
+        creator_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifierId != null" >
+        modifier_id,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="triggerCase != null" >
+        trigger_case,
+      </if>
+      <if test="triggerDefaultValue != null" >
+        trigger_default_value,
+      </if>
+      <if test="triggerValueType != null" >
+        trigger_value_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="actionScope != null" >
+        #{actionScope,jdbcType=TINYINT},
+      </if>
+      <if test="triggerResult != null" >
+        #{triggerResult,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultUtteranceId != null" >
+        #{defaultUtteranceId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null" >
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="triggerCase != null" >
+        #{triggerCase,jdbcType=TINYINT},
+      </if>
+      <if test="triggerDefaultValue != null" >
+        #{triggerDefaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerValueType != null" >
+        #{triggerValueType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hframework.myna.config.domain.model.Action_Example" resultType="java.lang.Integer" >
+    select count(*) from `action`
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update `action`
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        `TYPE` = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.actionScope != null" >
+        action_scope = #{record.actionScope,jdbcType=TINYINT},
+      </if>
+      <if test="record.triggerResult != null" >
+        trigger_result = #{record.triggerResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.defaultUtteranceId != null" >
+        default_utterance_id = #{record.defaultUtteranceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null" >
+        `status` = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.creatorId != null" >
+        creator_id = #{record.creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifierId != null" >
+        modifier_id = #{record.modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="record.modifyTime != null" >
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.triggerCase != null" >
+        trigger_case = #{record.triggerCase,jdbcType=TINYINT},
+      </if>
+      <if test="record.triggerDefaultValue != null" >
+        trigger_default_value = #{record.triggerDefaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.triggerValueType != null" >
+        trigger_value_type = #{record.triggerValueType,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update `action`
+    set id = #{record.id,jdbcType=BIGINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      `TYPE` = #{record.type,jdbcType=TINYINT},
+      action_scope = #{record.actionScope,jdbcType=TINYINT},
+      trigger_result = #{record.triggerResult,jdbcType=VARCHAR},
+      default_utterance_id = #{record.defaultUtteranceId,jdbcType=BIGINT},
+      `status` = #{record.status,jdbcType=TINYINT},
+      creator_id = #{record.creatorId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{record.modifierId,jdbcType=BIGINT},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      trigger_case = #{record.triggerCase,jdbcType=TINYINT},
+      trigger_default_value = #{record.triggerDefaultValue,jdbcType=VARCHAR},
+      trigger_value_type = #{record.triggerValueType,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hframework.myna.config.domain.model.Action" >
+    update `action`
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        `TYPE` = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="actionScope != null" >
+        action_scope = #{actionScope,jdbcType=TINYINT},
+      </if>
+      <if test="triggerResult != null" >
+        trigger_result = #{triggerResult,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultUtteranceId != null" >
+        default_utterance_id = #{defaultUtteranceId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="creatorId != null" >
+        creator_id = #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null" >
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="triggerCase != null" >
+        trigger_case = #{triggerCase,jdbcType=TINYINT},
+      </if>
+      <if test="triggerDefaultValue != null" >
+        trigger_default_value = #{triggerDefaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerValueType != null" >
+        trigger_value_type = #{triggerValueType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hframework.myna.config.domain.model.Action" >
+    update `action`
+    set code = #{code,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      `TYPE` = #{type,jdbcType=TINYINT},
+      action_scope = #{actionScope,jdbcType=TINYINT},
+      trigger_result = #{triggerResult,jdbcType=VARCHAR},
+      default_utterance_id = #{defaultUtteranceId,jdbcType=BIGINT},
+      `status` = #{status,jdbcType=TINYINT},
+      creator_id = #{creatorId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      trigger_case = #{triggerCase,jdbcType=TINYINT},
+      trigger_default_value = #{triggerDefaultValue,jdbcType=VARCHAR},
+      trigger_value_type = #{triggerValueType,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

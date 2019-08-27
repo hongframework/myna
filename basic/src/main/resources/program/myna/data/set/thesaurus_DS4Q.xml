@@ -1,0 +1,25 @@
+<dataset>
+  <module>config</module>
+  <code>thesaurus_DS4Q</code>
+  <entity>thesaurus</entity>
+  <name>词库【查询】</name>
+  <fields>
+    <field code="id" name="词库id" edit-type="hidden" is-key="true" not-null="true"/>
+    <field code="name_LKE" name="词库名称" edit-type="input" not-null="true"/>
+    <field code="description_LKE" name="词库描述" edit-type="input"/>
+    <field code="type" name="词库类型" edit-type="select">
+      <enum-class code="thesaurus.TYPE"/>
+    </field>
+    <field code="status" name="状态" edit-type="select">
+      <enum-class code="thesaurus.status"/>
+    </field>
+    <field code="creator_id" name="创建人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="create_time" name="创建时间" edit-type="hidden"/>
+    <field code="modifier_id" name="修改人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="modify_time" name="修改时间" edit-type="hidden"/>
+  </fields>
+</dataset>

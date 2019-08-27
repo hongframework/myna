@@ -1,0 +1,31 @@
+<dataset>
+  <module>config</module>
+  <code>task_DS4Q</code>
+  <entity>task</entity>
+  <name>任务【查询】</name>
+  <fields>
+    <field code="id" name="任务id" edit-type="hidden" is-key="true" not-null="true"/>
+    <field code="code_LKE" name="任务编码" edit-type="input" not-null="true"/>
+    <field code="name_LKE" name="任务名称" edit-type="input" not-null="true"/>
+    <field code="creator_id" name="创建人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="model_id" name="工作模式id" edit-type="hidden" not-null="true">
+      <rel entity-code="model/id/name"/>
+    </field>
+    <field code="create_time" name="创建时间" edit-type="hidden"/>
+    <field code="welcome_utterance_LKE" name="欢迎话术" edit-type="input" not-null="true"/>
+    <field code="modifier_id" name="修改人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="final_utterance_LKE" name="重置话术" edit-type="input" not-null="true"/>
+    <field code="modify_time" name="修改时间" edit-type="hidden"/>
+    <field code="close_utterance_LKE" name="离开话术" edit-type="input" not-null="true"/>
+    <field code="status" name="状态" edit-type="select">
+      <enum-class code="task.status"/>
+    </field>
+    <field code="faq_pattern" name="FAQ切换模式" edit-type="select" not-null="true">
+      <enum-class code="task.faq_pattern"/>
+    </field>
+  </fields>
+</dataset>

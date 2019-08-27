@@ -1,0 +1,345 @@
+#parse("default_startpart.vm")
+
+<div class="row-fluid">
+
+    <div class="box span4">
+        <div class="box-header" data-original-title="">
+            <h2><i class="icon-list"></i><span class="break"></span>待人工标记列表</h2>
+        </div>
+        <div class="box-content">
+            <dl>
+                #foreach($robot in $category)
+                    <dt>$robot.title</dt>
+                    #foreach($file in $robot.files)
+                        <dd robot="$file.robot" file="$file.file">$file.title</dd>
+                    #end
+                #end
+            </dl>
+        </div>
+    </div><!--/span-->
+
+    <div class="box span8">
+        <div class="box-header">
+            <h2><i class="icon-font"></i><span class="break"></span>标记</h2>
+        </div>
+        <div class="box-content">
+            <div class="page-header">
+                <h1>[2018-05-14 19:04:48]1805140654392631370371</h1>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <h2>聊天内容</h2>
+                    <p>说明，红色聊天内容为需要标记内容，黄色聊天内容为已标记过的聊天内容，灰色聊天内容无标记内容！</p>
+                    <div class="tooltip-demo well" id="chat_content">
+                        <p class="muted" style="margin-bottom: 0;">
+                            无
+                        </p>
+##                        <p class="muted" style="margin-bottom: 0;">
+##                            >> 请问您要去哪里？
+##                        </p>
+##                        <p class="muted" style="margin-bottom: 0;text-align: right;">
+##                            <a href="#" data-rel="tooltip" data-original-title="first tooltip">[添加语料]</a><span style="color:red">新加坡</span> <<
+##                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <h3>添加语料</h3>
+                    <p>说明，语料添加时可参考现有语料库，【<a href="javascript:show_corpus()">点击查看</a>】</p>
+                    <p>选中输入框文本，再点击如下按钮，可快速完成变量的替换！</p>
+                    <div class="span12" style="margin-left: 0px;padding-left: 5px;" id="fast_slot">
+                    </div>
+                    <input id="corpus_content" name="corpus_content" class="input-xxlarge ">
+                    <button class="btn btn-primary" onclick="javascript:add_corpus()" title="添加">添加</button>
+
+                </div>
+            </div><!--/row -->
+            <div class="row-fluid">
+                <div class="span12">
+                    <h3>添加同义词字典</h3>
+                    <p>说明，同义词字典添加时可参考现有同义词字典库，【<a href="javascript:show_thesaurus()">点击查看</a>】</p>
+                    <input id="words_name" name="words_name" class="input-xlarge ">
+                    <select id="thesaurus_id" name="thesaurus_id"  class="input-large " not-null="true" style="margin-bottom: 0px;"></select>
+
+                    <button class="btn btn-primary" onclick="javascript:add_thesaurus()" title="添加">添加</button>
+                </div>
+            </div><!--/row -->
+            <div class="row-fluid">
+                <div class="span12">
+                    <h3>添加点对点应答</h3>
+                    <p>说明，点对点应答为客户进行回答时，进行了一些反问，隐含作答等行为，需要针对于客户的问题进一步作答，【<a href="javascript:show_p2p_reply()">点击查看</a>】</p>
+                    <input id="corpus" name="corpus" class="input-xlarge ">
+                    <select id="reply_slt" name="reply_slt"  class="input-large " not-null="true" style="margin-bottom: 0px;"></select>
+
+                    <button class="btn btn-primary" onclick="javascript:add_p2p_reply()" title="添加">添加</button>
+                </div>
+            </div><!--/row -->
+            <div class="row-fluid">
+                <div class="span12">
+                    <h3>标记归档</h3>
+                    <p>说明，当您确认聊天内容不存在需要标记的语料或者字典，请将该聊天记录从标记列表中移除，移除后只能在历史聊天中查看！</p>
+                    <button class="btn btn-primary" onclick="javascript:finish_sign()" title="归档">我已标记完成并归档</button>
+                </div>
+            </div><!--/row -->
+
+##
+##            <div class="row-fluid">
+##                <div class="span12">
+##                    <h3>Example blockquotes</h3>
+##                    <div class="row-fluid">
+##                        <div class="span6">
+##                            <p>Default blockquotes are styled as such:</p>
+##                            <blockquote>
+##                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis.</p>
+##                                <small>Someone famous in <cite title="">Body of work</cite></small>
+##                            </blockquote>
+##                        </div>
+##                        <div class="span6">
+##                            <p>You can always float your blockquote to the right:</p>
+##                            <blockquote class="pull-right">
+##                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis.</p>
+##                                <small>Someone famous in <cite title="">Body of work</cite></small>
+##                            </blockquote>
+##                        </div>
+##                    </div>
+##                </div>
+##            </div>
+##            <div class="row-fluid">
+##                <div class="span6">
+##                    <h3>More Sample Text</h3>
+##                    <p>
+##                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at. Nulla tellus elit, varius non commodo eget, mattis vel eros. In sed ornare nulla. Donec consectetur, velit a pharetra ultricies, diam lorem lacinia risus, ac commodo orci erat eu massa. Sed sit amet nulla ipsum. Donec felis mauris, vulputate sed tempor at, aliquam a ligula. Pellentesque non pulvinar nisi.
+##                    </p>
+##                </div>
+##                <div class="span6">
+##                    <h3>And Paragraphs</h3>
+##                    <p>
+##                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at. Nulla tellus elit, varius non commodo eget, mattis vel eros. In sed ornare nulla. Donec consectetur, velit a pharetra ultricies, diam lorem lacinia risus, ac commodo orci erat eu massa. Sed sit amet nulla ipsum. Donec felis mauris, vulputate sed tempor at, aliquam a ligula. Pellentesque non pulvinar nisi.
+##                    </p>
+##                </div>
+##            </div>
+
+        </div>
+    </div><!--/span-->
+
+
+
+</div><!--/row-->
+
+
+#parse("default_endpart.vm")
+<script type="text/javascript">
+
+    function finish_sign(){
+        var $this = $("#xing").parent();
+        $.post("/robot/chat/history/sign.json",{robot:$this.attr("robot"), file:$this.attr("file")},function(data) {
+            if (data.resultCode != '0') {
+                alert(data.resultMessage);
+                return;
+            }else {
+                alert("标记完成！")
+                if($this.next()) {
+                    $this.next().click();
+                    $this.remove();
+                }else {
+                    location.reload();
+                }
+
+            }
+        });
+    }
+
+    function show_thesaurus(){
+        window.open("/config/thesaurus_mgr.html")
+    }
+    function show_p2p_reply(){
+        window.open("/config/p2p_reply_mgr.html")
+    }
+    function show_corpus(){
+        window.open("/config/corpus_mgr.html")
+    }
+
+    function add_corpus() {
+        var robotName = $("#chat_content").attr("robot");
+        var corpus = $("#corpus_content").val();
+        if(!corpus) {
+            alert("语料不能为空！")
+        }
+
+        $.post(
+                "/robot/save/corpus.json",
+                {robot:robotName, content:corpus},
+                function(data){
+                    if(data.resultCode != '0') {
+                        alert(data.resultMessage);
+                        return;
+                    }else {
+                        alert("语料添加成功！")
+                    }
+                });
+
+    }
+
+    function add_thesaurus() {
+        var robotName = $("#chat_content").attr("robot");
+        var wordsname = $("#words_name").val();
+        if(!wordsname) {
+            alert("内容不能为空！")
+        }
+
+        var thesaurusid = $("#thesaurus_id").val();
+        if(!thesaurusid) {
+            alert("词库不能为空！")
+        }
+
+        $.post(
+            "/robot/save/words.json",
+            {robot:robotName, thesaurus:thesaurusid, name:wordsname},
+            function(data){
+                if(data.resultCode != '0') {
+                    alert(data.resultMessage);
+                    return;
+                }else {
+                    alert("词典添加成功！")
+                }
+            });
+    }
+
+    function add_p2p_reply() {
+        var robotName = $("#chat_content").attr("robot");
+        var corpus = $("#corpus").val();
+        if(!corpus) {
+            alert("内容不能为空！")
+        }
+
+        var reply = $("#reply_slt").val();
+        if(!reply) {
+            alert("回答不能为空！")
+        }
+
+        $.post(
+                "/robot/save/reply.json",
+                {robot:robotName, reply:reply, corpus:corpus},
+                function(data){
+                    if(data.resultCode != '0') {
+                        alert(data.resultMessage);
+                        return;
+                    }else {
+                        alert("词典点对点应答成功！")
+                    }
+                });
+    }
+
+
+
+    var funGetSelectTxt = function() {
+        var txt = '';
+        if(document.selection) {
+            txt = document.selection.createRange().text;
+        } else {
+            txt = document.getSelection();
+        }
+        return txt.toString();
+    };
+
+    var targetText = null;
+    $("#corpus_content").mouseup(function(e) {
+        targetText = funGetSelectTxt();
+        targetText = $.trim(targetText);
+    }).mousedown(function() {
+        targetText = null;
+    });
+
+
+    $(".fast_slot_button").live("click",function(){
+        var slot = $(this).html();
+        var origin = $("#corpus_content").val();
+        if(targetText) {
+            $("#corpus_content").val(origin.replace(targetText, "{" + slot + "}"));
+        }else {
+            $("#corpus_content").val(origin +  "{" + slot + "}");
+        }
+    })
+
+    $("dd").on("click", function () {
+        var $this = $(this);
+        $.post("/robot/chat/history/data.json",{robot:$this.attr("robot"), file:$this.attr("file")},function(data){
+            if(data.resultCode != '0') {
+                alert(data.resultMessage);
+                return;
+            }
+
+            $("#chat_content").html("");
+            $("#chat_content").attr("robot", $this.attr("robot"))
+
+            var list = data.data.list;
+            var slots = data.data.slots;
+            var options = data.data.options;
+            var replies = data.data.replies;
+
+            $("#fast_slot").html("");
+
+            for(var i in slots) {
+                var slot = slots[i];
+                //badge-success
+                $("#fast_slot").append($('<div class="fast_slot_button external-event badge  ui-draggable" style="margin-right:3px;">' + slot + '</div>'))
+            }
+
+            $("#thesaurus_id").html("<option value=\"\"> - 请选择 - </option>");
+            for(var i in options) {
+                var option = options[i];
+                $("#thesaurus_id").append($('<option value="' + option + '" >' + option + '</option>'))
+            }
+            // if(options.length > 10) {
+            //     $("#thesaurus_id").addClass("hfselectx");
+            //     $("#thesaurus_id").chosen();//设置为selectx
+            //     $("#thesaurus_id").trigger("chosen:updated");
+            // }
+            $("#reply_slt").html("<option value=\"\"> - 请选择 - </option>");
+            for(var i in replies) {
+                var reply = replies[i];
+                $("#reply_slt").append($('<option value="' + reply + '" >' + reply + '</option>'))
+            }
+
+            for(var i in list) {
+                var role = list[i].role;
+                var utterance = list[i].utterance;
+                var is_unknown = list[i].is_unknown;
+                var markDown = list[i].mark_down;
+                var newParses = list[i].new_parses;
+
+
+                var _p = $("<p class=\"muted\" style=\"margin-bottom: 0;\"></p>");
+                if(role == "user") {
+                    _p.css("text-align", "right");
+                }
+                var _span = $('<span>' + utterance + '</span>');
+                if(is_unknown) {
+                    _p.css("color", "red");
+                    if(markDown) {
+                        _p.css("color", "#78cd51");
+                        _p.append($('<i class="icon-check " style="margin-right: 3px;" title="' + newParses + '"></i>'));
+                    }
+                }
+
+
+                if(role == "user") {
+                    _p.append(_span);
+                    _p.append(" <<");
+                }else {
+                    _p.append(">> ");
+                    _p.append(_span);
+                }
+
+
+                $("#chat_content").append(_p)
+            }
+            // location.reload();
+        });
+
+
+        $("#xing").remove();
+        $this.append("<span id='xing' style='margin-left:5px;'>★<span>")
+    });
+</script>

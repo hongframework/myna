@@ -1,0 +1,22 @@
+<dataset>
+  <module>config</module>
+  <code>model_DS4Q</code>
+  <entity>model</entity>
+  <name>工作模式【查询】</name>
+  <fields>
+    <field code="id" name="工作模式id" edit-type="hidden" is-key="true" not-null="true"/>
+    <field code="name_LKE" name="工作模式名称" edit-type="input" not-null="true"/>
+    <field code="utterance_select_method" name="话术选择方式" edit-type="select" not-null="true">
+      <enum-class code="actions.utterance_select_method"/>
+    </field>
+    <field code="status" name="状态" edit-type="input"/>
+    <field code="creator_id" name="创建人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="create_time" name="创建时间" edit-type="hidden"/>
+    <field code="modifier_id" name="修改人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="modify_time" name="修改时间" edit-type="hidden"/>
+  </fields>
+</dataset>

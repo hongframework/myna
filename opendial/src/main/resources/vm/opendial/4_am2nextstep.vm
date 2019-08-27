@@ -1,0 +1,73 @@
+##说明：
+##下一步是否可以考虑 由com.hframework.datacenter.myna.modules.UserUtterance2ActionModules扩展完全实现，不走规则配置
+## 因为可能返回到上一个问题再回来的场景，所以需要程序找没有答案的Qna
+    <model trigger="a_m">
+        <rule id="r_am_to_curstep">
+#foreach($qna in $slotQnas)
+            <case>
+                <condition>
+                    <if var="a_m" value="Ground($qna.code,*)" />
+                </condition>
+                <effect prob="1">
+                    <set var="a_m-prev" value="{a_m}" />
+#if($!qna.curPostHandleCode)
+                    <set var="business_handle" value="$qna.curPostHandleCode" />
+                    <set var="predict_current_step" value="$qna.next" />
+#elseif($!qna.nextPreHandleCode)
+                    <set var="business_handle" value="$qna.nextPreHandleCode" />
+#else
+                    <set var="predict_current_step" value="$qna.next" />
+#end
+                </effect>
+            </case>
+#end
+#foreach($qna in $judgmentQnas)
+#foreach($qnabranch in $qna.branchs)
+            <case>
+                <condition>
+                    <if var="a_m" value="Ground($qna.code,$qnabranch.value)" />
+                </condition>
+                <effect prob="1">
+                    <set var="a_m-prev" value="{a_m}" />
+#if($!qnabranch.curPostHandleCode)
+                    <set var="business_handle" value="$qnabranch.curPostHandleCode" />
+                    <set var="predict_current_step" value="$qnabranch.next" />
+#elseif($!qnabranch.nextPreHandleCode)
+                    <set var="business_handle" value="$qnabranch.nextPreHandleCode" />
+#else
+                    <set var="predict_current_step" value="$qnabranch.next" />
+#end
+                </effect>
+            </case>
+#end
+#end
+            <case>
+                <condition>
+                    <if var="a_m" value="Ground(CancelBusiness)" />
+                </condition>
+                <effect prob="1">
+                    <set var="current_step" value="Final" />
+                </effect>
+            </case>
+            <case>
+                <condition>
+                    <if var="a_m" value="Ground(Restart)" />
+                </condition>
+                <effect prob="1">
+                    <set var="current_step" value="${initCurrentStep}" />
+                    <set var="a_u" value="None" />
+#foreach($qna in $qnas)
+                    <set var="$qna.code" value="None" />
+#end
+                </effect>
+            </case>
+            <case>
+                <condition>
+                    <if var="a_m" value="Ground(Close)" />
+                </condition>
+                <effect prob="1">
+                    <set var="current_step" value="Close" />
+                </effect>
+            </case>
+        </rule>
+    </model>

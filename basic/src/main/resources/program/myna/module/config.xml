@@ -1,0 +1,135 @@
+<module code="config">
+  <page id="options_mgr" name="选项集管理" page-template="qlist" data-set="config/options">
+    <component id="qForm" data-set="config/options_DS4Q"/>
+  </page>
+  <page id="options_create" name="选项集添加" page-template="cComb" data-set="config/options" rel-page="options_mgr">
+    <component id="cForm" data-set="config/options"/>
+    <component id="cList" data-set="config/option"/>
+  </page>
+  <page id="options_edit" name="选项集修改" page-template="eComb" data-set="config/options" rel-page="options_mgr">
+    <component id="eForm" data-set="config/options"/>
+    <component id="eList" data-set="config/option"/>
+  </page>
+  <page id="options_detail" name="选项集查看" page-template="dComb" data-set="config/options" rel-page="options_mgr">
+    <component id="dForm" data-set="config/options"/>
+    <component id="qList" data-set="config/option"/>
+  </page>
+  <page id="thesaurus_mgr" name="词库管理" page-template="qlist" data-set="config/thesaurus">
+    <component id="qForm" data-set="config/thesaurus_DS4Q"/>
+  </page>
+  <page id="thesaurus_create" name="词库添加" page-template="cComb" data-set="config/thesaurus" rel-page="thesaurus_mgr">
+    <component id="cForm" data-set="config/thesaurus"/>
+    <component id="cList" data-set="config/words"/>
+  </page>
+  <page id="thesaurus_edit" name="词库修改" page-template="eComb" data-set="config/thesaurus" rel-page="thesaurus_mgr">
+    <component id="eForm" data-set="config/thesaurus"/>
+    <component id="eList" data-set="config/words"/>
+  </page>
+  <page id="thesaurus_detail" name="词库查看" page-template="dComb" data-set="config/thesaurus" rel-page="thesaurus_mgr">
+    <component id="dForm" data-set="config/thesaurus"/>
+    <component id="qList" data-set="config/words"/>
+  </page>
+  <page id="utterance_mgr" name="话术管理" page-template="qlist" data-set="config/utterance">
+    <component id="qForm" data-set="config/utterance_DS4Q"/>
+  </page>
+  <page id="utterance_create" name="话术创建" page-template="create" data-set="config/utterance" rel-page="utterance_mgr"/>
+  <page id="utterance_edit" name="话术修改" page-template="edit" data-set="config/utterance" rel-page="utterance_mgr"/>
+  <page id="utterance_detail" name="话术明细" page-template="edit" data-set="config/utterance" rel-page="utterance_mgr"/>
+  <page id="corpus_mgr" name="语料库管理" page-template="qlist" data-set="config/corpus">
+    <component id="qForm" data-set="config/corpus_DS4Q"/>
+  </page>
+  <page id="corpus_create" name="语料库创建" page-template="create" data-set="config/corpus" rel-page="corpus_mgr"/>
+  <page id="corpus_edit" name="语料库修改" page-template="edit" data-set="config/corpus" rel-page="corpus_mgr"/>
+  <page id="corpus_detail" name="语料库明细" page-template="edit" data-set="config/corpus" rel-page="corpus_mgr"/>
+  <page id="semantic_parser_mgr" name="语义解析器管理" page-template="qlist" data-set="config/semantic_parser">
+    <component id="qForm" data-set="config/semantic_parser_DS4Q"/>
+  </page>
+  <page id="semantic_parser_create" name="语义解析器创建" page-template="create" data-set="config/semantic_parser" rel-page="semantic_parser_mgr"/>
+  <page id="semantic_parser_edit" name="语义解析器修改" page-template="edit" data-set="config/semantic_parser" rel-page="semantic_parser_mgr"/>
+  <page id="semantic_parser_detail" name="语义解析器明细" page-template="edit" data-set="config/semantic_parser" rel-page="semantic_parser_mgr"/>
+  <page id="action_mgr" name="行为管理" page-template="qlist" data-set="config/action">
+    <component id="qForm" data-set="config/action_DS4Q"/>
+  </page>
+  <page id="action_create" name="行为创建" page-template="create" data-set="config/action" rel-page="action_mgr"/>
+  <page id="action_edit" name="行为修改" page-template="edit" data-set="config/action" rel-page="action_mgr"/>
+  <page id="action_detail" name="行为明细" page-template="edit" data-set="config/action" rel-page="action_mgr"/>
+  <page id="model_mgr" name="工作模式管理" page-template="qlist" data-set="config/model">
+    <component id="qForm" data-set="config/model_DS4Q"/>
+  </page>
+  <page id="model_create" name="工作模式添加" page-template="cComb" data-set="config/model" rel-page="model_mgr">
+    <component id="cForm" data-set="config/model"/>
+    <component id="cList" data-set="config/model_actions"/>
+  </page>
+  <page id="model_edit" name="工作模式修改" page-template="eComb" data-set="config/model" rel-page="model_mgr">
+    <component id="eForm" data-set="config/model"/>
+    <component id="eList" data-set="config/model_actions"/>
+  </page>
+  <page id="model_detail" name="工作模式查看" page-template="dComb" data-set="config/model" rel-page="model_mgr">
+    <component id="dForm" data-set="config/model"/>
+    <component id="qList" data-set="config/model_actions"/>
+  </page>
+  <page id="task_mgr" name="任务管理" page-template="qlist" data-set="config/task">
+    <component id="qForm" data-set="config/task_DS4Q"/>
+  </page>
+  <page id="task_create" name="任务添加" page-template="cComb" data-set="config/task" rel-page="task_mgr">
+    <component id="cForm" data-set="config/task"/>
+    <component id="cList" data-set="config/task_actions"/>
+  </page>
+  <page id="task_edit" name="任务修改" page-template="eComb" data-set="config/task" rel-page="task_mgr">
+    <component id="eForm" data-set="config/task"/>
+    <component id="eList" data-set="config/task_actions"/>
+  </page>
+  <page id="task_detail" name="任务查看" page-template="dComb" data-set="config/task" rel-page="task_mgr">
+    <component id="dForm" data-set="config/task"/>
+    <component id="qList" data-set="config/task_actions"/>
+  </page>
+  <page id="qna_mgr" name="问答管理" page-template="qlist" data-set="config/qna">
+    <component id="qForm" data-set="config/qna_DS4Q"/>
+  </page>
+  <page id="qna_create" name="问答添加" page-template="cComb" data-set="config/qna" rel-page="qna_mgr">
+    <component id="cForm" data-set="config/qna"/>
+    <component id="cList" data-set="config/qna_actions"/>
+  </page>
+  <page id="qna_edit" name="问答修改" page-template="eComb" data-set="config/qna" rel-page="qna_mgr">
+    <component id="eForm" data-set="config/qna"/>
+    <component id="eList" data-set="config/qna_actions"/>
+  </page>
+  <page id="qna_detail" name="问答查看" page-template="dComb" data-set="config/qna" rel-page="qna_mgr">
+    <component id="dForm" data-set="config/qna"/>
+    <component id="qList" data-set="config/qna_actions"/>
+  </page>
+
+  <page id="task_version_mgr" name="任务版本信息管理" page-template="qlist" data-set="config/task_version">
+    <component id="qForm" data-set="config/task_version_DS4Q"/>
+  </page>
+  <!--<page id="task_version_create" name="任务版本信息创建" page-template="create" data-set="config/task_version" rel-page="task_version_mgr"/>-->
+  <!--<page id="task_version_edit" name="任务版本信息修改" page-template="edit" data-set="config/task_version" rel-page="task_version_mgr"/>-->
+  <page id="task_version_detail" name="任务版本信息明细" page-template="edit" data-set="config/task_version" rel-page="task_version_mgr"/>
+  <page id="robot_mgr" name="机器人管理" page-template="qlist" data-set="config/robot">
+    <component id="qForm" data-set="config/robot_DS4Q"/>
+  </page>
+  <page id="robot_create" name="机器人创建" page-template="create" data-set="config/robot" rel-page="robot_mgr"/>
+  <page id="robot_edit" name="机器人修改" page-template="edit" data-set="config/robot" rel-page="robot_mgr"/>
+  <page id="robot_detail" name="机器人明细" page-template="edit" data-set="config/robot" rel-page="robot_mgr"/>
+  <page id="p2p_reply_mgr" name="点对点应答管理" page-template="qlist" data-set="config/p2p_reply">
+    <component id="qForm" data-set="config/p2p_reply_DS4Q"/>
+  </page>
+  <page id="p2p_reply_create" name="点对点应答添加" page-template="cComb" data-set="config/p2p_reply" rel-page="p2p_reply_mgr">
+    <component id="cForm" data-set="config/p2p_reply"/>
+    <component id="cList" data-set="config/p2p_corpus"/>
+  </page>
+  <page id="p2p_reply_edit" name="点对点应答修改" page-template="eComb" data-set="config/p2p_reply" rel-page="p2p_reply_mgr">
+    <component id="eForm" data-set="config/p2p_reply"/>
+    <component id="eList" data-set="config/p2p_corpus"/>
+  </page>
+  <page id="p2p_reply_detail" name="点对点应答查看" page-template="dComb" data-set="config/p2p_reply" rel-page="p2p_reply_mgr">
+    <component id="dForm" data-set="config/p2p_reply"/>
+    <component id="qList" data-set="config/p2p_corpus"/>
+  </page>
+    <page id="syntax_def_mgr" name="句法定义管理" page-template="qlist" data-set="config/syntax_def">
+        <component id="qForm" data-set="config/syntax_def_DS4Q"/>
+    </page>
+    <page id="syntax_def_create" name="句法定义创建" page-template="create" data-set="config/syntax_def" rel-page="syntax_def_mgr"/>
+    <page id="syntax_def_edit" name="句法定义修改" page-template="edit" data-set="config/syntax_def" rel-page="syntax_def_mgr"/>
+    <page id="syntax_def_detail" name="句法定义明细" page-template="edit" data-set="config/syntax_def" rel-page="syntax_def_mgr"/>
+</module>

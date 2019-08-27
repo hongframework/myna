@@ -1,0 +1,18 @@
+<dataset>
+  <module>config</module>
+  <code>task_version_DS4Q</code>
+  <entity>task_version</entity>
+  <name>任务版本信息【查询】</name>
+  <fields>
+    <field code="id" name="任务版本信息id" edit-type="hidden" is-key="true" not-null="true"/>
+    <field code="task_id" name="任务id" edit-type="hidden" not-null="true">
+      <rel entity-code="task/id/name"/>
+    </field>
+    <field code="descriptor" name="内容描述符" edit-type="input" not-null="true"/>
+    <field code="description_LKE" name="任务版本信息描述" edit-type="input"/>
+    <field code="creator_id" name="创建人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="create_time" name="创建时间" edit-type="hidden"/>
+  </fields>
+</dataset>

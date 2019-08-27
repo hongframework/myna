@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>小八模拟聊天室</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/aq_common.js"></script>
+    <script type="text/javascript">if(window.top!== window.self){top.location=self.location;}</script>
+    <link rel="shortcut icon" href="img/myna.jpg" type="image/x-icon"/>
+    <link rel="icon" sizes="192x192" href="img/myna.jpg" type="image/png" />
+    <link rel="icon" sizes="128x128" href="img/myna.jpg" type="image/png" />
+    <link rel="apple-touch-icon" sizes="128x128" href="img/myna.jpg" type="image/png" />
+    <!--style-->
+    <!--style-->
+    <!--[if lt IE 9]>
+      <script src="js/es5-shim_es5-sham_html5shiv.min.js"></script>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="js/json3.min.js"></script>
+
+    <![endif]-->
+<link rel="stylesheet" href="css/12edccc6099f46713d664410cd78082e.css"/></head>
+<body draggable="false" mm-action-track track-type='resize' ng-controller="appController" ng-class="{loaded:isLoaded,unlogin:isUnLogin}" ng-click="appClick($event)">
+
+<canvas style="position:absolute;top:0;left:0;bottom:0;right:0;z-index:-1;width:100%;height:100%;" id="heroCanvas"></canvas>
+
+<!--[if lt IE 8]>
+<p class="browsehappy">
+    你正在使用一个<strong>过时</strong>的浏览器。请<a class="link" href="http://browsehappy.com" target="_blank">升级你的浏览器</a>以查看小八模拟聊天室。</p>
+</p>
+<![endif]-->
+
+<!--BEGIN login-->
+<!-- ngIf: false -->
+<!--END login-->
+<!--BEGIN main-->
+<div class="main">
+    <div class="main_inner" ng-right-click="showContextMenu($event)">
+        <!--BEGIN panel-->
+        <!--inline[views/panel.html]-->
+        <div class="panel">
+
+            <!--BEGIN header-->
+            <div class="header">
+                <div class="avatar">
+                    <img class="img" src="img/myna.jpg"
+                         ng-click="showProfile($event)">
+                </div>
+                <div class="info">
+                    <h3 class="nickname">
+                        <span class="display_name ng-binding">小八模拟聊天室</span>
+                        <a class="opt" href="javascript:;" ng-show="account.HeadImgUrl" ng-click="toggleSystemMenu()"><i class="web_wechat_add"></i></a>
+                    </h3>
+                    <!--<p class="signature" ng-bind-html="account.Signature" title="{{account.Signature|emojiHideFilter}}"></p>-->
+                </div>
+            </div>
+            <div class="search_bar" id="search_bar">
+                <span  class="display_name ng-binding" style="color: #EEEEEE">欢迎来到小八聊天平台，现在你可以尽情的调戏小八啦(*￣︶￣)</span>
+            </div>
+            <!--END header-->
+            <!--BEGIN nav view-->
+            <div ui-view="navView" id="navView"></div>
+
+            <div class="nav_view" ng-style="{visibility:$state.current.name ==='chat'?'visible':'hidden',width:$state.current.name ==='chat'?'auto':'0'}" nav-chat-directive ></div>
+            <!--<div class="nav_view" ng-style="{visibility:$state.current.name ==='contact'?'visible':'hidden',width:$state.current.name ==='contact'?'auto':'0'}" nav-contact-directive ></div>-->
+            <!--<div class="nav_view" ng-style="{visibility:$state.current.name ==='read'?'visible':'hidden',width:$state.current.name ==='read'?'auto':'0'}" nav-read-directive ></div>-->
+
+            <!--</div>-->
+            <!--END nav view-->
+        </div>
+        <!--END panel-->
+
+        <!--BEGIN chat-->
+        <div ui-view="contentView" style="height:100%;"></div>
+        <!--END chat-->
+
+    </div>
+</div>
+
+<div id="chat-item-me-template" class="ng-scope" style="display:none">
+    <div class="clearfix">
+
+        <div ng-switch="" on="message.MsgType" style="overflow: hidden;" ng-init="contact = getUserContact(message.MMActualSender,message.MMPeerUserName);">
+
+            <div ng-switch-default="" class="message ng-scope me" ng-class="{&quot;you&quot;:!message.MMIsSend,&quot;me&quot;:message.MMIsSend,&quot;first&quot;:($index==0&amp;&amp;!message.MMTime)}">
+                <!-- ngIf: message.MMTime||(newMsg && newMsg==message) -->
+
+                <div ng-if="message.MMTime||(newMsg &amp;&amp; newMsg==message)" class="message_system ng-scope"><!-- ngIf: (isScrollToUnread && newMsg==message) --><!-- ngIf: (message.MMTime&&!(newMsg && newMsg==message)) -->
+                    <div ng-if="(message.MMTime&amp;&amp;!(newMsg &amp;&amp; newMsg==message))" class="content ng-binding ng-scope">16:10</div><!-- end ngIf: (message.MMTime&&!(newMsg && newMsg==message)) -->
+                </div><!-- end ngIf: message.MMTime||(newMsg && newMsg==message) -->
+
+                <img class="avatar" src=""  title="我" ng-click="showProfile($event,message.MMActualSender)">
+                <div class="content">
+                    <h4 class="nickname ng-binding ng-scope" style="padding-right:  10px; width: auto;">我</h4>
+                    <span class="desc ng-scope  ng-binding message-time" style="font-size:12px;font-weight:400;vertical-align: -webkit-baseline-middle;"></span>
+                    <div class="bubble js_message_bubble ng-scope bubble_primary right" ng-class="{&quot;bubble_default left&quot;:!message.MMIsSend,&quot;bubble_primary right&quot;:message.MMIsSend, &quot;arrow_primary&quot;: message.MsgType == CONF.MSGTYPE_APP &amp;&amp; message.AppMsgType == CONF.APPMSGTYPE_URL, &quot;no_arrow&quot;: message.MsgType == CONF.MSGTYPE_IMAGE || message.MsgType == CONF.MSGTYPE_MICROVIDEO || message.MsgType == CONF.MSGTYPE_VIDEO}" data-cm="{&quot;type&quot;:&quot;message&quot;,&quot;actualSender&quot;:&quot;@1a72dcdadcc4d5b23145f8b689c2a40e&quot;,
+                         &quot;msgType&quot;:&quot;1&quot;,&quot;subType&quot;:0,&quot;msgId&quot;:&quot;4392033870685675206&quot;}">
+                        <div class="bubble_cont ng-scope" >
+                            <div class="plain"><pre class="js_message_plain ng-binding" >请输入你的用户名</pre>
+                                <!--<img class="ico_loading " src="//res.wx.qq.com/a/wx_fed/webwx/res/static/img/25x4Rho.gif" alt="">-->
+                                <!--<i class="ico_fail web_wechat_message_fail ng-hide" ng-click="resendMsg(message)" ng-show="message.MMStatus == 5" title="重新发送"></i>-->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="chat-item-you-template" class="ng-scope" style="display:none">
+    <div class="clearfix">
+        <div ng-switch="" on="message.MsgType" style="overflow: hidden;" ng-init="contact = getUserContact(message.MMActualSender,message.MMPeerUserName);">
+            <div ng-switch-default="" class="message ng-scope you" ng-class="{&quot;you&quot;:!message.MMIsSend,&quot;me&quot;:message.MMIsSend,&quot;first&quot;:($index==0&amp;&amp;!message.MMTime)}">
+                <img class="avatar" src="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxgeticon?seq=659773551&username=@1a72dcdadcc4d5b23145f8b689c2a40e&skey=@crypt_cf28cc0a_278df490c782aaa549564bec016f709f" title="you" ng-click="showProfile($event,message.MMActualSender)">
+                <div class="content">
+                    <h4 class="nickname ng-binding ng-scope" >you</h4><!-- end ngIf: message.MMIsChatRoom && !message.MMIsSend -->
+                    <div class="bubble js_message_bubble ng-scope bubble_default left"  ng-class="{&quot;bubble_default left&quot;:!message.MMIsSend,&quot;bubble_primary right&quot;:message.MMIsSend, &quot;arrow_primary&quot;: message.MsgType == CONF.MSGTYPE_APP &amp;&amp; message.AppMsgType == CONF.APPMSGTYPE_URL, &quot;no_arrow&quot;: message.MsgType == CONF.MSGTYPE_IMAGE || message.MsgType == CONF.MSGTYPE_MICROVIDEO || message.MsgType == CONF.MSGTYPE_VIDEO}" data-cm="{&quot;type&quot;:&quot;message&quot;,&quot;actualSender&quot;:&quot;@e01cc65999e3bcb344e837ab7d13ee8b&quot;,
+                             &quot;msgType&quot;:&quot;1&quot;,&quot;subType&quot;:0,&quot;msgId&quot;:&quot;8574872197804248394&quot;}">
+                        <div class="bubble_cont ng-scope">
+                            <div class="plain">
+                                <pre class="js_message_plain ng-binding">3324234</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="desc ng-scope  ng-binding  message-time" style="font-size:12px;font-weight:400;vertical-align: -webkit-baseline-middle;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--END main-->
+
+<script type="text/ng-template" id="navChat.html">
+    <!--BEGIN chat list-->
+    <div jquery-scrollbar class="chat_list scrollbar-dynamic" id="J_NavChatScrollBody">
+        <div  data-height="64" data-buffer-height="200" >
+            <div class="chat_item slide-left" data-username="机票预订专员" data-userno="flighting" data-cm='{"type":"chat","username":"机票预订专员"}'>
+                <!--<div class="ext"><p class="attr">16:00</p></div>-->
+                <div class="avatar">
+                    <img class="img" src="img/feiji.jpg" alt=""/>
+                    <!--<i class="icon web_wechat_reddot" ></i>-->
+                    <!--<i class="icon web_wechat_reddot_middle" ng-class="{web_wechat_reddot_middle: chatContact.NoticeCount < 99, web_wechat_reddot_bbig: chatContact.NoticeCount >=99}">1</i>-->
+                </div>
+
+                <div class="info">
+                    <h3 class="nickname">
+                        <span class="nickname_text" >机票预订专员</span>
+                        <!--<span class="nickname_count">(5)</span>&lt;!&ndash; 用户数 &ndash;&gt;-->
+                    </h3>
+                    <p class="msg">
+                        <!--<span>[2条]</span>-->
+                        <span >点击开启你的对话吧！</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div  data-height="64" data-buffer-height="200">
+            <div class="chat_item slide-left" data-username="酒店预订专员" data-userno="hotel"  data-cm='{"type":"chat","username":"酒店预订专员"}'>
+                <!--<div class="ext"><p class="attr">16:00</p></div>-->
+                <div class="avatar">
+                    <img class="img" src="img/jiudian.jpg" alt=""/>
+                    <!--<i class="icon web_wechat_reddot" ></i>-->
+                    <!--<i class="icon web_wechat_reddot_middle" ng-class="{web_wechat_reddot_middle: chatContact.NoticeCount < 99, web_wechat_reddot_bbig: chatContact.NoticeCount >=99}">1</i>-->
+                </div>
+
+                <div class="info">
+                    <h3 class="nickname">
+                        <span class="nickname_text" >酒店预订专员</span>
+                        <!--<span class="nickname_count">(5)</span>&lt;!&ndash; 用户数 &ndash;&gt;-->
+                    </h3>
+                    <p class="msg">
+                        <!--<span>[152条]</span>-->
+                        <span >点击开启你的对话吧！</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div  data-height="64" data-buffer-height="200">
+            <div class="chat_item slide-left" data-username="外卖预订专员" data-userno="takeout" data-cm='{"type":"chat","username":"外卖预订专员"}'>
+                <!--<div class="ext"><p class="attr">16:00</p></div>-->
+                <div class="avatar">
+                    <img class="img" src="img/waimai.jpg" alt=""/>
+                    <!--<i class="icon web_wechat_reddot" ></i>-->
+                    <!--<i class="icon web_wechat_reddot_middle" ng-class="{web_wechat_reddot_middle: chatContact.NoticeCount < 99, web_wechat_reddot_bbig: chatContact.NoticeCount >=99}">1</i>-->
+                </div>
+
+                <div class="info">
+                    <h3 class="nickname">
+                        <span class="nickname_text" >外卖预订专员</span>
+                        <!--<span class="nickname_count">(5)</span>&lt;!&ndash; 用户数 &ndash;&gt;-->
+                    </h3>
+                    <p class="msg">
+                        <!--<span>[152条]</span>-->
+                        <span >点击开启你的对话吧！</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END chat list-->
+</script>
+
+<script type="text/ng-template" id="contentChat.html">
+    <div id="chat-area" ng-class="{'chatRoom':currentContact.isRoomContact(),'no-choose':!currentContact.getDisplayName()}" class="box chat ng-scope chatRoom">
+
+        <!--BEGIN HD-->
+        <div class="box_hd">
+            <!--<a class="ext web_wechat_addfriend" href="javascript:;" ng-click="showChatRoomMembers($event)" ng-show="currentContact.isRoomContact()" title="成员"></a>-->
+            <!--<a class="ext web_wechat_addfriend" href="javascript:;" ng-click="showProfile($event)" ng-show="!currentContact.isRoomContact()" title="Profile"></a>-->
+            <div id="chatRoomMembersWrap"></div>
+            <div class="title_wrap">
+                <div class="title poi" ng-click="currentContact.MMCanCreateChatroom &amp;&amp; showChatRoomMembers($event)">
+                    <a class="title_name ng-binding" data-username="@@58c5738a8c2a1d2ef3de7f6e4b4128c03483fe2fc2b940897ab2b45a8d5fefd5"></a>
+                    <!--<span class="title_count ng-binding ng-scope" >(17)</span>-->
+                    <!--<i class="web_wechat_down_icon" ng-class="{'web_wechat_up_icon': isShowChatRoomMembers, 'web_wechat_down_icon': !isShowChatRoomMembers}" ></i>-->
+                </div>
+            </div>
+
+        </div>
+        <!--END HD-->
+
+        <!--BEGIN BD-->
+        <div class="scroll-wrapper box_bd chat_bd scrollbar-dynamic" style="position: absolute;">
+            <div jquery-scrollbar="" class="box_bd chat_bd scrollbar-dynamic scroll-content scroll-scrolly_visible" data-cm="{&quot;type&quot;:&quot;clean&quot;,&quot;username&quot;:&quot;@@58c5738a8c2a1d2ef3de7f6e4b4128c03483fe2fc2b940897ab2b45a8d5fefd5&quot;}" style="margin-bottom: 0px; margin-right: 0px; height: 406px;">
+                <div  data-height-calc="heightCalc" data-buffer-height="300" data-pre-calc="true" class="ng-scope">
+
+                    <div ng-style="{height:topHeight}" class="top-placeholder ng-scope" style="height: 0px;"></div><!-- ngRepeat: message in chatContent -->
+                    <!-- append content here ! -->
+                <div ng-style="{height:bottomHeight}" class="bottom-placeholder ng-scope" style="height: 0px;"></div>
+            </div>
+
+            <!--<div message-directive
+                 ng-repeat="message in chatContent track by message.MsgId"
+                 class="clearfix"
+                 ng-class="{'slide-top':messagesAnimate}"
+                 ></div>
+    -->     <div id="prerender" style="
+      visibility: hidden;
+  position: absolute;
+  width: 100%;
+  top: 333px;
+  height: 0;
+  padding: 0 19px;
+  box-sizing: border-box;
+  margin-left: -19px;
+  overflow: hidden;
+"></div>
+            <!-- ngIf: chatContent.length < 1 -->
+        </div>
+            <div class="scroll-element scroll-x scroll-scrolly_visible">
+                <div class="scroll-element_corner"></div>
+                <div class="scroll-arrow scroll-arrow_less"></div>
+                <div class="scroll-arrow scroll-arrow_more"></div>
+                <div class="scroll-element_outer">
+                    <div class="scroll-element_size"></div>
+                    <div class="scroll-element_inner-wrapper">
+                        <div class="scroll-element_inner scroll-element_track">
+                            <div class="scroll-element_inner-bottom"></div>
+                        </div>
+                    </div>
+                    <div class="scroll-bar" style="width: 89px;">
+                        <div class="scroll-bar_body">
+                            <div class="scroll-bar_body-inner"></div>
+                        </div>
+                        <div class="scroll-bar_bottom"></div>
+                        <div class="scroll-bar_center"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-element scroll-y scroll-scrolly_visible">
+                <div class="scroll-element_corner"></div>
+                <div class="scroll-arrow scroll-arrow_less"></div>
+                <div class="scroll-arrow scroll-arrow_more"></div>
+                <div class="scroll-element_outer">
+                    <div class="scroll-element_size"></div>
+                    <div class="scroll-element_inner-wrapper">
+                        <div class="scroll-element_inner scroll-element_track">
+                            <div class="scroll-element_inner-bottom"></div>
+                        </div>
+                    </div>
+                    <div class="scroll-bar" style="height: 283px; top: 119px;">
+                        <div class="scroll-bar_body">
+                            <div class="scroll-bar_body-inner"></div>
+                        </div>
+                        <div class="scroll-bar_bottom"></div>
+                        <div class="scroll-bar_center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END BD-->
+        <!--BEGIN FT-->
+        <div class="box_ft " style="display: none">
+            <div class="toolbar" id="tool_bar">
+                <!--<a class="web_wechat_face" ng-click="showEmojiPanel($event)" href="javascript:;" title="表情"></a>-->
+                <!--<a mm-action-track="" track-type="['click']" track-opt="{'target':'截图'}" class="web_wechat_screencut ng-isolate-scope" ng-hide="noflash" ng-click="screenShot()" href="javascript:;" title="截屏"></a>-->
+                <!--<a mm-action-track="" track-type="['click']" ng-click="sendClick($event)" track-opt="{'target':'发文件'}" class="web_wechat_pic js_fileupload ng-isolate-scope webuploader-container" ng-hide="noflash" href="javascript:;" title="图片和文件"><div class="webuploader-pick"></div><div id="rt_rt_1cbrc8n001ga3kt71pa91v58t3a8" style="position: absolute; top: 0px; left: 0px; width: 30px; height: 30px; overflow: hidden; bottom: auto; right: auto;"><input type="file" name="file" class="webuploader-element-invisible" multiple="multiple"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label></div></a>-->
+            </div>
+            <div class="content ng-isolate-scope" mm-action-track="" track-type="['click','keydown']" track-opt="{target:'发送框',keys:['enter','backspace','blankspace']}">
+                <pre id="editArea"  mm-paste="" class="flex edit_area ng-isolate-scope ng-pristine ng-valid" contenteditable="true" ng-blur="editAreaBlur($event)" ng-model="editAreaCtn" ng-click="editAreaClick($event)" ng-keyup="editAreaKeyup($event)" ng-keydown="editAreaKeydown($event)"></pre>
+                <span class="caret_pos_helper" id="caretPosHelper"></span>
+            </div>
+
+
+            <div class="action">
+                <!-- ngIf: !isMacOS -->
+                <!--<span ng-if="!isMacOS" class="desc ng-scope">按下Ctrl+Enter换行</span>-->
+                <!-- end ngIf: !isMacOS -->
+                <!-- ngIf: isMacOS -->
+                <a class="btn btn_send" href="javascript:send();" >发送</a>
+            </div>
+        </div>
+        <!--END FT-->
+
+        <!--    <div class="upload-file-area" >{{currentContact.getDisplayName()}}</div>-->
+    </div>
+</script>
+
+<!--script-->
+<script type="text/javascript">
+    (function(){
+        window.MMCgi = {
+            isLogin:!!"1"
+        };
+//            window.MMSource = {
+//                /*videoSwfPath:'/zh_CN/htmledition/v2/third_party/video-js-4.11.2/video-js.swf',*/
+//                copySwfPath:'./zh_CN/htmledition/v2/third_party/zeroclipboard-2.0.2/ZeroClipboard.swf',
+//                jplayerSwfPath:'/zh_CN/htmledition/v2/third_party/jPlayer-2.9.2/jquery.jplayer.swf'
+//
+//            };
+        window.MMDEV = location.host.indexOf("dev") > -1;
+    })();
+
+</script>
+<!--script-->
+<script>!function(){var n,t={};n=function(n,e){var i=arguments.length;if(i>1)t[n]=e;else if(1==i){if("object"!=typeof n)return t[n];for(var o in n)n.hasOwnProperty(o)&&(t[o]=n[o])}},"_"in window||(window._=n)}();_({"02d9819":"提示","0d2fc2c":"程序初始化失败，点击确认刷新页面","599d8df":"发送文件出错，请刷新后再试","8d521cc":"点击修改备注","5a97440":"我是","8d521cc":"点击修改备注","8d521cc":"点击修改备注","02d9819":"提示","f45a3d8":"添加好友失败","61e885c":"不允许发送空文件","599d8df":"发送文件出错，请刷新后再试","9a7dbbc":"发送视频文件不允许超过 20MB","599d8df":"发送文件出错，请刷新后再试","599d8df":"发送文件出错，请刷新后再试","76a7e04":"图片上传失败，请检查你的网络","82cf63d":"抱歉，截屏工具暂不支持64位操作系统下的IE浏览器。","112a5c0":"请检查你是否禁用了截屏插件。如果你还没安装截屏插件，点击确定安装。","c5795a7":"图片上传失败，请检查你的网络，","02d9819":"提示","f45a3d8":"添加好友失败","02d9819":"提示","0d42740":"创建群聊失败","02d9819":"提示","0d42740":"创建群聊失败","84e4fac":"取消置顶","3d43ff1":"置顶","1f9be6d":"修改群名","685739c":"关闭聊天","91382d9":"清屏","7068541":"查看详细资料","b5f1591":"发送消息","0bd10a8":"添加到通讯录","2305051":"撤回","2305051":"撤回","3b61c96":"引用","d9eb6f5":"「","83b6d34":"」","79d3abe":"复制","f26ef91":"下载","21e106f":"转发","2f4aadd":"删除","b3b6735":"最近聊天","938b111":"该消息模拟聊天室小八暂时不支持","a5627e8":"[图片]","b28dac0":"[语音]","4078104":"[视频]","1f94b1b":"[小视频]","80f56fb":"[发送了一个表情，请在手机上查看]","2242ac7":"[收到了一个表情，请在手机上查看]","e230fc1":"[动画表情]","fdaa3a3":"[收到一条视频/语音聊天消息，请在手机上查看]","0e23719":"[音乐]","4078104":"[视频]","4f20785":"[应用消息]","c4e04ee":"请在手机点击打开","e5b228c":"[链接]","6daeae3":"[文件]","0cdad09":"[收到一条小八转账消息，请在手机上查看]","c534fc3":"[收到一条优惠券消息，请在手机上查看]","8e94ca5":"我发起了位置共享，请在手机上查看","a41d576":"对方","a1f1299":"发起了位置共享，请在手机上查看","95afe20":"[收到一条扫商品消息，请在手机上查看]","355765a":"[收到一条商品消息，请在手机上查看]","9d7f4bb":"[收到一条表情分享消息，请在手机上查看]","e24e75c":"[小八红包]","ded861c":"撤回了一条消息","df1fd91":"你","ebeaf99":"想要将你加为朋友","ebeaf99":"想要将你加为朋友","9a2223f":"你推荐了","dd14577":"向你推荐了","809bb9d":"[表情]","df1fd91":"你","ded861c":"撤回了一条消息","df1fd91":"你","ded861c":"撤回了一条消息","6c2fc35":"小八团队","eb7ec65":"文件传输专员","0469c27":"腾讯新闻","a82c4c4":"朋友推荐消息","f13fb20":"星标好友","59d29a3":"好友","4b0ab7b":"群组","215feec":"公众号","2f521c5":"小八模拟聊天室","cfbf6f4":"小八","845ec73":"图片加载失败，请关闭后重试。","809bb9d":"[表情]","562d747":"周日","1603b06":"周一","b5a6a07":"周二","e60725e":"周三","170fc8e":"周四","eb79cea":"周五","2457513":"周六"});</script>
+<script src="//res.wx.qq.com/a/wx_fed/webwx/res/static/vendor/vendor_fe62088.js"></script>
+<script src="//res.wx.qq.com/a/wx_fed/webwx/res/static/js/index_ca360ff.js"></script>
+<div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"><div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div></div></body>
+<script src="../static/js/jquery-1.10.2.min.js"></script>
+<script src="js/robot_chat.js"></script>
+
+</html>

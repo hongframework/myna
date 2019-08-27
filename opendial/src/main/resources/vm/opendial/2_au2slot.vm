@@ -1,0 +1,81 @@
+##当a_u为Inform({Slot},{Value})
+    <model trigger="a_u">
+        <rule id="r_inform_to_slot">
+#foreach($qna in $qnas)
+            <case>
+                <condition>
+##由于a_u在扩展类处理时，已经使用了current_step，所以这里比较多余，但可以暂时保留，
+                    <if var="current_step" value="$qna.code" />
+                    <if var="a_u" relation="contains" value="Inform($qna.code,{Value})" />
+                </condition>
+                <effect>
+                    <set var="$qna.code" value="{Value}" />
+                    <set var="slot_update" value="$qna.code={Value}" />
+                </effect>
+            </case>
+#end
+        </rule>
+##当a_u为Confirm/Disconfirm,且a_m为Confirm({Slot},{Value})
+        <rule id="r_confirm_to_slot">
+            <case>
+                <condition>
+                    <if var="a_m" value="Confirm({Slot},{Value})" />
+                    <if var="a_u" relation="contains" value="Confirm" />
+                </condition>
+                <effect>
+                    <set var="{Slot}" value="{Value}" />
+                    <set var="slot_update" value="{Slot}={Value}" />
+                </effect>
+            </case>
+            <case>
+                <condition>
+                    <if var="a_m" value="Confirm({Slot},{Value})" />
+                    <if var="a_u" relation="contains" value="Disconfirm" />
+                </condition>
+                <effect>
+                    <set var="{Slot}" value="None" />
+                    <set var="slot_update" value="{Slot}=None" />
+                </effect>
+            </case>
+        </rule>
+
+        <rule id="r_ground_to_slot">
+            <case>
+                <condition operator="or">
+                    <if var="a_m" value="Ground({Slot},{Value})" />
+                    <if var="a_m-prev" value="Ground({Slot},{Value})" />
+                </condition>
+                <effect>
+                    <set var="{Slot}" value="{Value}" />
+                    <set var="slot_update" value="{Slot}={Value}" />
+                </effect>
+            </case>
+        </rule>
+
+        <rule priority="2" id="r_def_update_slot">
+            <case>
+                <condition>
+## 没有使用反向传播时
+                    <if var="backward_reasoning" relation="=" value="None" />
+                </condition>
+                <effect>
+                    <set var="slot_update" value="None" />
+#foreach($qna in $qnas)
+                    <set var="$qna.code" value="{$qna.code}" />
+#end
+                </effect>
+            </case>
+        </rule>
+        <rule id="r_update_final_slot">
+            <case>
+                <condition>
+                    <if var="current_step" value="Final" />
+                    <if var="a_u" relation="contains" value="Inform(Final,{Value})" />
+                </condition>
+                <effect>
+                    <set var="Final" value="{Value}" />
+                    <set var="slot_update" value="Final={Value}" />
+                </effect>
+            </case>
+        </rule>
+    </model>

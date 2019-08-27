@@ -1,0 +1,29 @@
+<dataset>
+  <module>config</module>
+  <code>utterance_DS4Q</code>
+  <entity>utterance</entity>
+  <name>话术【查询】</name>
+  <fields>
+    <field code="id" name="话术id" edit-type="hidden" is-key="true" not-null="true"/>
+    <field code="content_LKE" name="话术内容" edit-type="input" not-null="true"/>
+    <field code="resource_id_LKE" name="资源ID" edit-type="input"/>
+    <field code="action_id" name="行为ID" edit-type="input"/>
+    <field code="task_id" name="任务id" edit-type="hidden">
+      <rel entity-code="task/id/name"/>
+    </field>
+    <field code="id" name="任务id" edit-type="hidden">
+      <rel entity-code="task/id/name"/>
+    </field>
+    <field code="status" name="状态" edit-type="select">
+      <enum-class code="utterance.status"/>
+    </field>
+    <field code="creator_id" name="创建人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="create_time" name="创建时间" edit-type="hidden"/>
+    <field code="modifier_id" name="修改人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="modify_time" name="修改时间" edit-type="hidden"/>
+  </fields>
+</dataset>

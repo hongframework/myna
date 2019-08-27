@@ -1,0 +1,74 @@
+    <model trigger="current_step">
+
+##        <rule id="pre-handle"> 同一个model下的所有rule优先计算，最后才走扩展的module，所以前置后置处理必须独立为新的model，新的trigger
+###foreach($qna in $qnas)
+###if($!qna.preHandleCode)
+##            <case>
+##                <condition>
+##                    <if var="current_step" value="$qna.code" />
+##                </condition>
+##                <effect util="1">
+##                    <set var="business_handle" value="$qna.preHandleCode" />
+##                </effect>
+##            </case>
+###end
+###end
+##        </rule>
+        <rule id="r_ask_utterance">
+#foreach($qna in $qnas)
+            <case>
+                <condition>
+                    <if var="current_step" value="$qna.code" />
+## 没有使用反向传播时
+                    <if var="backward_reasoning" relation="=" value="None" />
+                </condition>
+                <effect util="1">
+                    <set var="u_m" value="$!qna.utterance" />
+                </effect>
+            </case>
+#end
+        </rule>
+        <rule id="r_ask_branch_utterance">
+#foreach($qna in $judgmentQnas)
+#foreach($qnabranch in $qna.branchs)
+            <case>
+                <condition>
+                    <if var="current_step" value="$qna.code" />
+                    <if var="backward_reasoning" relation="=" value="None" />
+                    <if var="$qna.code" value="$qnabranch.value" />
+##                        <if var="NbTickets" value="1"/>
+                </condition>
+                <effect util="1">
+                    <set var="u_m" value="$!qnabranch.utterance" />
+                </effect>
+            </case>
+#end
+#end
+        </rule>
+
+        <rule id="r_final_utterance">
+            <case>
+                <condition>
+                    <if var="backward_reasoning" relation="=" value="None" />
+                    <if var="current_step" value="Final" />
+                </condition>
+                <effect util="1">
+## Do you want to order additional tickets?
+                    <set var="u_m" value="$!{finalUtterance}" />
+                </effect>
+            </case>
+        </rule>
+
+        <rule id="r_close_utterance">
+            <case>
+                <condition>
+                    <if var="current_step" value="Close" />
+                    <if var="backward_reasoning" relation="=" value="None" />
+                </condition>
+                <effect util="1">
+## Thank you for your order and welcome back!
+                    <set var="u_m" value="$!{closeUtterance}" />
+                </effect>
+            </case>
+        </rule>
+    </model>

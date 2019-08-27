@@ -1,0 +1,13 @@
+    <settings>
+        <monitor>current_step,time_out,p2p_reply</monitor>
+        <modules>
+## 用户话术到用户意图解析
+## 这里包括业务提交的逻辑都在这里面
+##重问话术选择
+            com.hframework.datacenter.myna.modules.UserUtterance2ActionModules,
+            com.hframework.datacenter.myna.modules.MachineGround2NextStepModules,
+            com.hframework.datacenter.myna.modules.MachineUtteranceSelectModules,
+            com.hframework.datacenter.myna.modules.BusinessHandleModules,
+            com.hframework.datacenter.myna.modules.TimeOutModules
+        </modules>
+    </settings>

@@ -1,0 +1,55 @@
+<model trigger="a_m,current_step">
+    <rule id="priorProb">
+#foreach($qna in $qnas)
+#if($qna.priorProbList.size() > 0)
+        <case>
+            <condition>
+                <if var="current_step" value="$qna.code" />
+            </condition>
+#foreach($pp in $qna.priorProbList)
+                <effect prob="$pp.prob">
+## 0.25
+                    <set var="$qna.code^p" value="$pp.item" />
+## Departure^p Oslo
+                </effect>
+#end
+        </case>
+#end
+#end
+    </rule>
+
+    <rule id="prevExtendProb">
+        <case>
+            <condition>
+                <if var="a_m" value="(AskRepeat|None)"/>
+                <if var="a_u" relation="!=" value="None"/>
+                <if var="a_u" relation="!=" value="[Other]"/>
+            </condition>
+            <effect prob="$prevExtendProb">
+## 0.3
+                <set var="a_u^p" value="{a_u}"/>
+            </effect>
+        </case>
+        <case>
+            <condition operator="or">
+                <if var="a_m" value="Confirm(*)"/>
+#foreach($qna in $judgmentQnas)
+                    <if var="current_step" value="$qna.code"/>
+#end
+            </condition>
+            <effect prob="$prevConfirmExtendProb">
+## 0.2
+                <set var="a_u^p" value="[Confirm]"/>
+            </effect>
+            <effect prob="$prevDisconfirmExtendProb">
+## 0.2
+                <set var="a_u^p" value="[Disconfirm]"/>
+            </effect>
+        </case>
+        <case>
+            <effect>
+                <set var="a_u^p" value="None"/>
+            </effect>
+        </case>
+    </rule>
+</model>

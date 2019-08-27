@@ -1,0 +1,43 @@
+<dataset>
+  <module>config</module>
+  <code>task</code>
+  <entity>task</entity>
+  <name>任务【默认】</name>
+  <fields>
+    <field code="id" name="任务id" edit-type="hidden" is-key="true" not-null="true"/>
+    <field code="code" name="任务编码" edit-type="input" not-null="true"/>
+    <field code="name" name="任务名称" edit-type="input" is-name="true" not-null="true"/>
+    <field code="creator_id" name="创建人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+      <create-edit-type>hidden</create-edit-type>
+      <update-edit-type>text</update-edit-type>
+    </field>
+    <field code="model_id" name="工作模式id" edit-type="select" not-null="true">
+      <rel entity-code="model/id/name"/>
+    </field>
+    <field code="welcome_utterance" name="欢迎话术" edit-type="input" not-null="true"/>
+    <field code="final_utterance" name="重置话术" edit-type="input" not-null="true"/>
+    <field code="close_utterance" name="离开话术" edit-type="input" not-null="true"/>
+    <field code="create_time" name="创建时间" edit-type="hidden">
+      <create-edit-type>hidden</create-edit-type>
+      <update-edit-type>text</update-edit-type>
+    </field>
+
+    <field code="modifier_id" name="修改人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+      <create-edit-type>hidden</create-edit-type>
+      <update-edit-type>hidden</update-edit-type>
+    </field>
+    <field code="modify_time" name="修改时间" edit-type="hidden">
+      <create-edit-type>hidden</create-edit-type>
+      <update-edit-type>hidden</update-edit-type>
+    </field>
+
+    <field code="status" name="状态" edit-type="select">
+      <enum-class code="task.status"/>
+    </field>
+    <field code="faq_pattern" name="FAQ切换模式" edit-type="select" not-null="true">
+      <enum-class code="task.faq_pattern"/>
+    </field>
+  </fields>
+</dataset>

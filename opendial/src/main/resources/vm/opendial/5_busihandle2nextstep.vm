@@ -1,0 +1,17 @@
+##说明：
+    <model trigger="business_handle_down">
+        <rule id="r_pre_handle">
+#foreach($qna in $qnas)
+#if($!qna.preHandleCode)
+            <case>
+                <condition>
+                    <if var="business_handle_down" value="$qna.preHandleCode" />
+                </condition>
+                <effect util="1">
+                    <set var="predict_current_step" value="$qna.code" />
+                </effect>
+            </case>
+#end
+#end
+        </rule>
+    </model>

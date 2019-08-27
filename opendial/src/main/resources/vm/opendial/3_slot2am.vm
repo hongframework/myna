@@ -1,0 +1,134 @@
+    <model trigger="slot_update">
+        <rule  id="r_update_am_g_or_c">
+#foreach($qna in $qnas)
+            <case>
+                <condition>
+                    <if var="current_step" value="$qna.code" />
+                </condition>
+                <effect util="$qna.groundUtil">
+## 5
+                    <set var="a_m" value="Ground($qna.code,{$qna.code})" />
+                </effect>
+                <effect util="$qna.confirmUtil">
+## 0.5
+                    <set var="a_m" value="Confirm($qna.code,{$qna.code})" />
+                </effect>
+            </case>
+#end
+        </rule>
+## 这部分内容针对于问题为问答形式的
+## 整合进入au2slot通过Return = Confirm/Disconfirm的取值形式统一处理
+##    <rule>
+##        <case>
+##            <condition>
+##                <if var="current_step" value="Return" />
+##                <if var="a_u" relation="contains" value="Confirm" />
+##            </condition>
+##            <effect util="5">
+##                <set var="a_m" value="Ground(Return)" />
+##            </effect>
+##        </case>
+##        <case>
+##            <condition>
+##                <if var="current_step" value="Return" />
+##                <if var="a_u" relation="contains" value="Disconfirm" />
+##            </condition>
+##            <effect util="5">
+##                <set var="a_m" value="Ground(NoReturn)" />
+##            </effect>
+##        </case>
+##    </rule>
+##        <rule>
+##            <case>
+##                <condition>
+##                    <if var="current_step" value="LastConfirm" />
+##                    <if var="a_u" relation="contains" value="Confirm" />
+##                </condition>
+##                <effect util="5">
+##                    <set var="a_m" value="Ground(SubmitBusiness)" />
+##                </effect>
+##            </case>
+##            <case>
+##                <condition>
+##                    <if var="current_step" value="LastConfirm" />
+##                    <if var="a_u" relation="contains" value="Disconfirm" />
+##                </condition>
+##                <effect util="5">
+##                    <set var="a_m" value="Ground(CancelBusiness)" />
+##                </effect>
+##            </case>
+##        </rule>
+
+        <rule id="r_update_final_am">
+            <case>
+                <condition>
+                    <if var="current_step" value="Final" />
+##                    <if var="a_u" relation="contains" value="Confirm" />
+                    <if var="Final" value="true" />
+                </condition>
+                <effect util="5">
+                    <set var="a_m" value="Ground(Restart)" />
+                </effect>
+            </case>
+            <case>
+                <condition>
+                    <if var="current_step" value="Final" />
+##                    <if var="a_u" relation="contains" value="Disconfirm" />
+                    <if var="Final" value="false" />
+                </condition>
+                <effect util="5">
+                    <set var="a_m" value="Ground(Close)" />
+                </effect>
+            </case>
+        </rule>
+
+        <rule id="r_update_am_repeat">
+#foreach($qna in $qnas)
+            <case>
+                <condition>
+                    <if var="current_step" value="$qna.code" />
+                    <if var="a_u" relation="!=" value="None" />
+                </condition>
+                <effect util="$qna.askRepeatUtil">
+## 0.1
+                    <set var="a_m" value="AskRepeat" />
+                </effect>
+            </case>
+#end
+        </rule>
+##    <rule>
+##        <case>
+##            <condition>
+##                <if var="a_u" relation="!=" value="None" />
+##            </condition>
+##            <effect util="0.1">
+##                <set var="a_m" value="AskRepeat" />
+##            </effect>
+##        </case>
+##    </rule>
+
+        <rule id="r_update_am_pub">
+            <case>
+                <effect util="$pubGroundUtil">
+## -4.5
+                    <set var="a_m" value="Ground(*)" />
+                </effect>
+                <effect util="$pubConfirmUtil">
+## -0.3
+                    <set var="a_m" value="Confirm(*)" />
+                </effect>
+                <effect util="$pubAskRepeatUtil">
+## -0.03
+                    <set var="a_m" value="AskRepeat" />
+                </effect>
+            </case>
+        </rule>
+
+        <rule id="r_update_am_prev">
+            <case>
+                <effect>
+                    <set var="a_m-prev" value="{a_m}" />
+                </effect>
+            </case>
+        </rule>
+    </model>

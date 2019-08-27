@@ -1,0 +1,190 @@
+## 说明
+## 由于AskRepeat的多样性与随机性，考虑用扩展类com.hframework.datacenter.myna.modules.MachineUtteranceSelectModules
+    <model trigger="a_m">
+        <rule id="r_slot_ground_utterance">
+#foreach($qna in $slotQnas)
+            <case>
+                <condition>
+                    <if var="a_m" value="Ground($qna.code,{$qna.code})" />
+                </condition>
+                <effect util="1">
+                    <set var="u_m" value="$!qna.groundUtterance" />
+                </effect>
+            </case>
+#end
+        </rule>
+        <rule id="r_confirm_utterance">
+#foreach($qna in $slotQnas)
+            <case>
+                <condition>
+                    <if var="a_m" value="Confirm($qna.code,{$qna.code})" />
+                </condition>
+                <effect util="1">
+                    <set var="u_m" value="$!qna.confirmUtterance" />
+                </effect>
+            </case>
+#end
+        </rule>
+        <rule id="r_branch_ground_utterance">
+#foreach($qna in $judgmentQnas)
+#foreach($qnabranch in $qna.branchs)
+#if($qnabranch.groundUtterance)
+            <case>
+                <condition>
+                    <if var="a_m" value="Ground($qna.code,{$qna.code})" />
+                    <if var="$qna.code" value="$qnabranch.value" />
+                </condition>
+                <effect util="1">
+                    <set var="u_m" value="$!qnabranch.groundUtterance" />
+                </effect>
+            </case>
+#end
+#end
+#end
+        </rule>
+##        <rule id="r_ask_repeat_utterance">
+##            <case>
+##                <condition>
+##                    <if var="a_m" value="AskRepeat" />
+##                </condition>
+##                <effect util="1">
+##                    <set var="u_m"
+##                         value="我好像不太明白你的意思，再说一次吧！" />
+##                </effect>
+##            </case>
+##        </rule>
+##
+##    <!-- grounding the return date -->
+##    <rule>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="Ground(ReturnDate,NoReturn)" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m" value="OK, no return trip." />
+##            </effect>
+##        </case>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="Ground(ReturnDate,{ReturnDate})" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m"
+##                     value="OK, flying back from {Destination} to {Departure} on {ReturnDate}." />
+##            </effect>
+##        </case>
+##    </rule>
+
+##    <!-- confirmation request for the return date -->
+##    <rule>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="Confirm(ReturnDate,NoReturn)" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m" value="Do you want to order a return trip?" />
+##            </effect>
+##        </case>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="Confirm(ReturnDate,{Date2})" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m"
+##                     value="You want to fly back to {Departure} on {Date2}. Is that correct?" />
+##            </effect>
+##        </case>
+##    </rule>
+##    <rule>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="AskRepeat" />
+##                <if var="current_step" value="(Destination|Departure)" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m"
+##                     value="Sorry, could you repeat? The available airports are Oslo, Bergen,
+##					Trondheim, Stavanger, Moss,	Sandefjord, Tromsø, Bodø, Kristiansand and Ålesund." />
+##            </effect>
+##        </case>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="AskRepeat" />
+##                <if var="current_step" value="(Date|ReturnDate)" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m"
+##                     value="Sorry, could you repeat? Please state the month and day of
+##					your desired flight." />
+##            </effect>
+##        </case>
+##        <case>
+##            <condition>
+##                <if var="a_m-prev" value="AskRepeat" />
+##                <if var="a_m" value="AskRepeat" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m"
+##                     value="Sorry I couldn't understand you. Could you please repeat one more time?" />
+##            </effect>
+##        </case>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="AskRepeat" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m" value="Sorry, could you repeat?" />
+##            </effect>
+##        </case>
+##    </rule>
+##
+##    <!-- Making a price offer -->
+##    <rule>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="MakeOffer({Price})" />
+##                <if var="ReturnDate" value="NoReturn" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m"
+##                     value="One-way flight tickets from {Departure} to {Destination}
+##					on {Date} cost {Price} EUR per person. Do you want me to order tickets?" />
+##            </effect>
+##        </case>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="MakeOffer({Price})" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m"
+##                     value="Flight tickets from {Departure} to {Destination} on {Date} and returning
+##						on {ReturnDate} cost {Price} EUR per person. Do you want me to order tickets?" />
+##            </effect>
+##        </case>
+##    </rule>
+##
+##    <!-- Grounding the cancellation -->
+##    <rule>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="Ground(Cancel)" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m" value="OK, your booking is now cancelled." />
+##            </effect>
+##        </case>
+##    </rule>
+##
+##    <!-- Grounding the booking -->
+##    <rule>
+##        <case>
+##            <condition>
+##                <if var="a_m" value="Ground(Booking)" />
+##            </condition>
+##            <effect util="1">
+##                <set var="u_m"
+##                     value="OK, your tickets are now ordered and will be sent to you via email." />
+##            </effect>
+##        </case>
+##    </rule>
+    </model>

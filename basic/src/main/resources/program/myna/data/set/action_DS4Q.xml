@@ -1,0 +1,40 @@
+<dataset>
+  <module>config</module>
+  <code>action_DS4Q</code>
+  <entity>action</entity>
+  <name>行为【查询】</name>
+  <fields>
+    <field code="id" name="行为id" edit-type="hidden" is-key="true" not-null="true"/>
+    <field code="code_LKE" name="行为编码" edit-type="input" not-null="true"/>
+    <field code="name_LKE" name="行为名称" edit-type="input" not-null="true"/>
+    <field code="description_LKE" name="行为描述" edit-type="input"/>
+    <field code="action_scope" name="作用域" edit-type="select" not-null="true">
+      <enum-class code="action.action_scope"/>
+    </field>
+    <field code="TYPE" name="行为类型" edit-type="select">
+      <enum-class code="action.TYPE"/>
+    </field>
+    <field code="trigger_case" name="触发条件" edit-type="select" not-null="true">
+      <enum-class code="action.trigger_case"/>
+    </field>
+    <field code="trigger_default_value_LKE" name="触发默认值" edit-type="input" not-null="true"/>
+    <field code="trigger_value_type" name="触发值类型" edit-type="select" not-null="true">
+      <enum-class code="action.trigger_value_type"/>
+    </field>
+    <field code="trigger_result_LKE" name="触发结果" edit-type="input"/>
+    <field code="default_utterance_id" name="话术id" edit-type="hidden" not-null="true">
+      <rel entity-code="utterance/id/content"/>
+    </field>
+    <field code="status" name="状态" edit-type="select">
+      <enum-class code="action.status"/>
+    </field>
+    <field code="creator_id" name="创建人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="create_time" name="创建时间" edit-type="hidden"/>
+    <field code="modifier_id" name="修改人" edit-type="hidden">
+      <rel entity-code="user/user_id/user_name" add-by-global="true"/>
+    </field>
+    <field code="modify_time" name="修改时间" edit-type="hidden"/>
+  </fields>
+</dataset>

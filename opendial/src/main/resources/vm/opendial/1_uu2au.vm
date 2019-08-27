@@ -1,0 +1,17 @@
+## 说明：
+## uu to au 由com.hframework.datacenter.myna.modules.UserUtterance2ActionModules扩展完全实现，不走规则配置
+## 输出au取值仅为Inform({Slot},{Value})/Confirm/Disconfirm/Other
+    <model trigger="u_u">
+        <rule priority="2"  id="r_def_update_au">
+            <case>
+                <condition>
+                    <if var="u_u" relation="!=" value="None" />
+## 没有使用反向传播时
+                    <if var="backward_reasoning" relation="=" value="None" />
+                </condition>
+                <effect>
+                    <set var="a_u" value="Other" exclusive="false"/>
+                </effect>
+            </case>
+        </rule>
+    </model>

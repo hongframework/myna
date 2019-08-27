@@ -1,0 +1,16 @@
+<dataset>
+  <module>system</module>
+  <code>user_login_DS</code>
+  <entity>user</entity>
+  <name>用户登录</name>
+  <fields>
+    <field code="account" name="用户账号" edit-type="input" show-type="hidden">
+      <create-edit-type>input</create-edit-type>
+      <update-edit-type>input</update-edit-type>
+    </field>
+    <field code="password" name="用户密码" edit-type="password" show-type="hidden">
+      <create-edit-type>password</create-edit-type>
+      <update-edit-type>password</update-edit-type>
+    </field>
+  </fields>
+</dataset>
